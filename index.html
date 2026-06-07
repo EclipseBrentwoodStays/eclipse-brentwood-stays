@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eclipse Brentwood Stays · Private Guest Stays</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #f8f4ee;
+      --warm-white: #fdfaf6;
+      --charcoal: #1e1e1e;
+      --stone: #6b6560;
+      --muted: #9e9790;
+      --gold: #b8965a;
+      --gold-light: #d4b07a;
+      --border: rgba(180,165,145,0.25);
+      --border-strong: rgba(180,165,145,0.5);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--warm-white); color: var(--charcoal); line-height: 1.6; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(253,250,246,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 500; letter-spacing: 0.04em; color: var(--charcoal); }
+    .nav-brand span { color: var(--gold); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--stone); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--charcoal); }
+
+    /* HERO */
+    .hero { padding: 5rem 2rem 4rem; max-width: 860px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+    .hero-eyebrow { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+    .hero-eyebrow::before { content: ''; display: inline-block; width: 28px; height: 1px; background: var(--gold); }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.6rem, 6vw, 4.2rem); font-weight: 500; line-height: 1.1; color: var(--charcoal); margin-bottom: 1.5rem; }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero-desc { font-size: 1rem; color: var(--stone); max-width: 540px; margin-bottom: 2rem; line-height: 1.75; }
+    .trust-note { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--muted); border: 1px solid var(--border-strong); padding: 0.5rem 1rem; border-radius: 2rem; }
+    .trust-note::before { content: '🔒'; font-size: 0.7rem; }
+
+    /* SECTIONS */
+    .section { max-width: 860px; margin: 0 auto; padding: 3.5rem 2rem; border-bottom: 1px solid var(--border); }
+    .section-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; }
+
+    /* PHOTO GALLERY — uniform 3-col grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .photo-slot {
+      background: var(--cream);
+      border: 1.5px dashed var(--border-strong);
+      border-radius: 4px;
+      aspect-ratio: 4/3;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.4rem; color: var(--muted);
+      text-align: center; padding: 0.5rem;
+    }
+    .photo-slot.main {
+      grid-column: 1 / span 3;
+      aspect-ratio: 16/7;
+    }
+    .photo-icon { font-size: 1.5rem; opacity: 0.45; }
+    .photo-label { font-size: 0.7rem; letter-spacing: 0.04em; color: var(--stone); }
+    .photo-coming { font-size: 0.65rem; color: var(--muted); margin-top: 0.1rem; }
+
+    /* FLOORPLAN HIGHLIGHT */
+    .floorplan-section {
+      max-width: 860px; margin: 0 auto;
+      padding: 3.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .floorplan-card {
+      border: 1.5px solid var(--gold-light);
+      border-radius: 8px;
+      padding: 2rem;
+      background: linear-gradient(135deg, #fffdf8, #fef8ee);
+      display: flex; align-items: flex-start; gap: 2rem;
+    }
+    .floorplan-placeholder {
+      flex: 1;
+      background: var(--cream);
+      border: 1.5px dashed var(--border-strong);
+      border-radius: 4px;
+      min-height: 200px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.5rem;
+    }
+    .floorplan-info { flex: 0 0 220px; }
+    .floorplan-badge {
+      font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); border: 1px solid var(--gold-light);
+      padding: 0.2rem 0.7rem; border-radius: 2rem;
+      display: inline-block; margin-bottom: 0.85rem;
+    }
+    .floorplan-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 500; margin-bottom: 0.6rem; }
+    .floorplan-info p { font-size: 0.82rem; color: var(--stone); line-height: 1.7; }
+    .floorplan-specs { margin-top: 1rem; list-style: none; }
+    .floorplan-specs li { font-size: 0.8rem; color: var(--stone); padding: 0.3rem 0; border-top: 1px solid var(--border); display: flex; gap: 0.5rem; }
+    .floorplan-specs li::before { content: '—'; color: var(--gold); }
+
+    /* STAY OPTIONS */
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .option-card { border: 1px solid var(--border-strong); border-radius: 6px; padding: 1.75rem; transition: border-color 0.2s, box-shadow 0.2s; }
+    .option-card:hover { border-color: var(--gold-light); box-shadow: 0 4px 24px rgba(184,150,90,0.08); }
+    .option-card.featured { border-color: var(--gold); background: linear-gradient(145deg, #fffdf8, #fef8ee); }
+    .option-badge { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--gold-light); padding: 0.2rem 0.6rem; border-radius: 2rem; display: inline-block; margin-bottom: 1rem; }
+    .option-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 500; margin-bottom: 0.25rem; }
+    .option-price-block { margin-bottom: 1rem; }
+    .option-price-main { font-size: 1.4rem; font-family: 'Cormorant Garamond', serif; color: var(--gold); font-weight: 600; }
+    .option-price-sub { font-size: 0.75rem; color: var(--muted); margin-top: 0.1rem; }
+    .option-desc { font-size: 0.85rem; color: var(--stone); line-height: 1.7; margin-bottom: 1.25rem; }
+    .option-includes { list-style: none; font-size: 0.8rem; color: var(--stone); }
+    .option-includes li { padding: 0.3rem 0; border-top: 1px solid var(--border); display: flex; gap: 0.5rem; align-items: flex-start; }
+    .option-includes li::before { content: '—'; color: var(--gold); flex-shrink: 0; }
+
+    /* AMENITIES */
+    .amenities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+    .amenity { display: flex; align-items: center; gap: 0.6rem; font-size: 0.82rem; color: var(--stone); padding: 0.7rem 1rem; border: 1px solid var(--border); border-radius: 4px; }
+
+    /* NEIGHBOURHOOD */
+    .location-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+    .location-card { padding: 1.25rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; }
+    .location-card-title { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.04em; margin-bottom: 0.3rem; }
+    .location-card-desc { font-size: 0.78rem; color: var(--stone); line-height: 1.6; }
+    .walkscore { display: inline-flex; align-items: center; gap: 0.75rem; margin-top: 1.5rem; padding: 0.75rem 1.25rem; border: 1px solid var(--border-strong); border-radius: 4px; font-size: 0.82rem; color: var(--stone); }
+    .walkscore strong { font-size: 1.4rem; color: var(--gold); font-family: 'Cormorant Garamond', serif; }
+    .map-link { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1rem; font-size: 0.78rem; color: var(--gold); text-decoration: none; letter-spacing: 0.04em; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+    .map-link:hover { border-color: var(--gold-light); }
+
+    /* CALENDAR */
+    .calendar-container { border: 1px solid var(--border-strong); border-radius: 6px; overflow: hidden; background: var(--cream); }
+    .calendar-placeholder { padding: 3rem 2rem; text-align: center; color: var(--muted); }
+    .calendar-placeholder .cal-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .calendar-placeholder p { font-size: 0.85rem; line-height: 1.7; max-width: 360px; margin: 0 auto; }
+    .calendar-placeholder .setup-note { margin-top: 1rem; font-size: 0.75rem; color: var(--gold); font-style: italic; }
+
+    /* HOUSE RULES */
+    .rules-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+    .rule { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.82rem; color: var(--stone); padding: 0.5rem 0; }
+
+    /* CTA */
+    .cta-section { max-width: 860px; margin: 0 auto; padding: 4rem 2rem; text-align: center; }
+    .cta-section h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 500; margin-bottom: 1rem; }
+    .cta-section p { font-size: 0.9rem; color: var(--stone); max-width: 420px; margin: 0 auto 2rem; line-height: 1.75; }
+    .btn-primary { display: inline-block; background: var(--charcoal); color: #fff; padding: 0.9rem 2.5rem; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: background 0.2s, transform 0.15s; }
+    .btn-primary:hover { background: var(--gold); transform: translateY(-1px); }
+    .btn-secondary { display: inline-block; margin-left: 1rem; color: var(--stone); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; border-bottom: 1px solid var(--border-strong); transition: color 0.2s; }
+    .btn-secondary:hover { color: var(--charcoal); }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 1.5rem 2rem; max-width: 860px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; color: var(--muted); }
+
+    /* MOBILE */
+    @media (max-width: 640px) {
+      nav { padding: 0.85rem 1.25rem; }
+      .nav-links { display: none; }
+      .hero, .section, .floorplan-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .hero { padding-top: 3rem; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .photo-slot.main { grid-column: 1 / span 2; aspect-ratio: 16/9; }
+      .floorplan-card { flex-direction: column; }
+      .floorplan-info { flex: none; width: 100%; }
+      .options-grid { grid-template-columns: 1fr; }
+      .amenities-grid { grid-template-columns: repeat(2, 1fr); }
+      .location-cards { grid-template-columns: 1fr; }
+      .rules-grid { grid-template-columns: 1fr; }
+      .cta-section { padding: 3rem 1.25rem; }
+      .btn-secondary { display: block; margin: 1rem 0 0; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Eclipse <span>·</span> Brentwood Stays</div>
+  <ul class="nav-links">
+    <li><a href="#stays">Stays</a></li>
+    <li><a href="#amenities">Amenities</a></li>
+    <li><a href="#neighbourhood">Location</a></li>
+    <li><a href="#availability">Availability</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Brentwood · Burnaby · BC</p>
+  <h1>A private stay<br>for <em>trusted</em> guests</h1>
+  <p class="hero-desc">
+    A brand-new 2-bedroom condo in one of Metro Vancouver's most walkable neighbourhoods —
+    offered exclusively to family, friends, and the people they vouch for.
+    Not listed anywhere publicly.
+  </p>
+  <span class="trust-note">If you received this link, someone trusted you with it — please keep it that way</span>
+</section>
+
+<!-- PHOTO GALLERY -->
+<section class="section" id="photos">
+  <p class="section-label">The Space — Photos Coming Soon</p>
+  <div class="gallery-grid">
+    <div class="photo-slot main">
+      <div class="photo-icon">🖼</div>
+      <div class="photo-label">Living / Dining Area</div>
+      <div class="photo-coming">Photo coming soon</div>
+    </div>
+    <div class="photo-slot">
+      <div class="photo-icon">🛏</div>
+      <div class="photo-label">Primary Bedroom</div>
+    </div>
+    <div class="photo-slot">
+      <div class="photo-icon">🛏</div>
+      <div class="photo-label">2nd Bedroom</div>
+    </div>
+    <div class="photo-slot">
+      <div class="photo-icon">🍳</div>
+      <div class="photo-label">Kitchen</div>
+    </div>
+    <div class="photo-slot">
+      <div class="photo-icon">🛁</div>
+      <div class="photo-label">Bathroom</div>
+    </div>
+    <div class="photo-slot">
+      <div class="photo-icon">🌆</div>
+      <div class="photo-label">Balcony</div>
+    </div>
+    <div class="photo-slot">
+      <div class="photo-icon">🌇</div>
+      <div class="photo-label">2nd Balcony</div>
+    </div>
+    <div class="photo-slot">
+      <div class="photo-icon">🏋️</div>
+      <div class="photo-label">Building Gym</div>
+    </div>
+    <div class="photo-slot">
+      <div class="photo-icon">🏢</div>
+      <div class="photo-label">Exterior / Street View</div>
+    </div>
+    <div class="photo-slot">
+      <div class="photo-icon">🚪</div>
+      <div class="photo-label">Front Door from Garden</div>
+    </div>
+    <div class="photo-slot">
+      <div class="photo-icon">🌳</div>
+      <div class="photo-label">Community Garden</div>
+    </div>
+  </div>
+</section>
+
+<!-- FLOOR PLAN — Highlighted Section -->
+<div class="floorplan-section" id="floorplan">
+  <p class="section-label">Floor Plan</p>
+  <div class="floorplan-card">
+    <div class="floorplan-placeholder">
+      <div class="photo-icon" style="font-size:2rem;opacity:0.35;">📐</div>
+      <div class="photo-label">Floor Plan</div>
+      <div class="photo-coming">Image coming soon</div>
+    </div>
+    <div class="floorplan-info">
+      <span class="floorplan-badge">Floor Plan</span>
+      <h3>Know the Space<br>Before You Arrive</h3>
+      <p>
+        See exactly how the condo is laid out — bedrooms, living areas, balconies,
+        and storage — so you can plan your stay with confidence.
+      </p>
+      <ul class="floorplan-specs">
+        <li>2 bedrooms</li>
+        <li>2 bathrooms</li>
+        <li>2 balconies</li>
+        <li>Open-plan kitchen &amp; living</li>
+        <li>In-suite laundry</li>
+        <li>1 dedicated parking stall</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- STAY OPTIONS -->
+<section class="section" id="stays">
+  <p class="section-label">Stay Options</p>
+  <div class="options-grid">
+
+    <div class="option-card">
+      <span class="option-badge">Private Room</span>
+      <div class="option-title">Room Stay</div>
+      <div class="option-price-block">
+        <div class="option-price-main">$100 <span style="font-size:0.9rem;font-weight:400;">/ night</span></div>
+        <div class="option-price-sub">Maximum 2 guests · Host is home</div>
+      </div>
+      <p class="option-desc">
+        Your own private room in the condo while your host is also at home.
+        Perfect for solo travellers or couples who want a comfortable,
+        affordable base in Vancouver.
+      </p>
+      <ul class="option-includes">
+        <li>Private bedroom</li>
+        <li>Shared kitchen &amp; living areas</li>
+        <li>1 parking stall included</li>
+        <li>All utilities &amp; WiFi included</li>
+        <li>SkyTrain 10-min walk</li>
+      </ul>
+    </div>
+
+    <div class="option-card featured">
+      <span class="option-badge">Whole Condo</span>
+      <div class="option-title">Full Unit Stay</div>
+      <div class="option-price-block">
+        <div class="option-price-main">$250 <span style="font-size:0.9rem;font-weight:400;">/ night</span></div>
+        <div class="option-price-sub">2-night minimum · Host travels to Victoria</div>
+      </div>
+      <p class="option-desc">
+        The entire 2-bedroom condo is yours. Your host is away in Victoria,
+        so you have complete privacy. Ideal for families, couples,
+        or anyone wanting the whole place to themselves.
+      </p>
+      <ul class="option-includes">
+        <li>Full 2-bedroom condo</li>
+        <li>Complete privacy — host is away</li>
+        <li>1 parking stall included</li>
+        <li>Full kitchen, living &amp; dining</li>
+        <li>2-night minimum stay</li>
+      </ul>
+    </div>
+
+  </div>
+  <p style="font-size:0.78rem;color:var(--muted);margin-top:1rem;">
+    💬 Have questions about pricing or dates? Just reach out — happy to help.
+  </p>
+</section>
+
+<!-- AMENITIES -->
+<section class="section" id="amenities">
+  <p class="section-label">What's Included</p>
+  <div class="amenities-grid">
+    <div class="amenity"><span>📶</span> High-speed WiFi</div>
+    <div class="amenity"><span>🅿️</span> 1 Parking Stall</div>
+    <div class="amenity"><span>🍳</span> Full Kitchen</div>
+    <div class="amenity"><span>🧺</span> In-suite Laundry</div>
+    <div class="amenity"><span>❄️</span> Air Conditioning</div>
+    <div class="amenity"><span>📺</span> Smart TV</div>
+    <div class="amenity"><span>🛋</span> Furnished Living Room</div>
+    <div class="amenity"><span>🌿</span> Two Balconies</div>
+    <div class="amenity"><span>🏋️</span> Building Gym Access</div>
+  </div>
+</section>
+
+<!-- NEIGHBOURHOOD -->
+<section class="section" id="neighbourhood">
+  <p class="section-label">Neighbourhood — Brentwood, Burnaby</p>
+  <div class="location-cards">
+    <div class="location-card">
+      <div class="location-card-title">🚇 Brentwood Town Centre SkyTrain</div>
+      <div class="location-card-desc">10-minute walk. Direct line downtown Vancouver in under 20 minutes. No car needed for city trips.</div>
+    </div>
+    <div class="location-card">
+      <div class="location-card-title">🛍 The Amazing Brentwood</div>
+      <div class="location-card-desc">Major shopping, dining, and entertainment complex steps away. Restaurants, grocery, and more on your doorstep.</div>
+    </div>
+    <div class="location-card">
+      <div class="location-card-title">🚗 Easy Highway Access</div>
+      <div class="location-card-desc">Quick connections to Hwy 1 and Hwy 7 for day trips to Whistler, the Fraser Valley, or the Sunshine Coast ferry.</div>
+    </div>
+    <div class="location-card">
+      <div class="location-card-title">🌳 Parks &amp; Green Space</div>
+      <div class="location-card-desc">Burnaby Mountain, Confederation Park, and several green spaces nearby for morning walks or outdoor time.</div>
+    </div>
+  </div>
+  <div class="walkscore">
+    <strong>82</strong>
+    <div>
+      <div style="font-weight:500;font-size:0.82rem;">Walk Score · Very Walkable</div>
+      <div style="font-size:0.72rem;color:var(--muted);">Most errands can be done on foot</div>
+    </div>
+  </div>
+  <br>
+  <a class="map-link" href="https://maps.google.com/?q=2381+Beta+Ave,+Burnaby,+BC+V5C+0P7" target="_blank">
+    📍 2381 Beta Ave, Burnaby BC V5C 0P7 — View on Google Maps →
+  </a>
+</section>
+
+<!-- AVAILABILITY CALENDAR -->
+<section class="section" id="availability">
+  <p class="section-label">Availability</p>
+  <p style="font-size:0.85rem;color:var(--stone);margin-bottom:1.25rem;line-height:1.7;">
+    Available dates are shown below. Blocked dates appear as unavailable — no booking details are visible to guests.
+    Reach out to confirm your dates and get pricing.
+  </p>
+  <div class="calendar-container">
+    <div class="calendar-placeholder">
+      <div class="cal-icon">📅</div>
+      <p>
+        <strong style="color:var(--charcoal);">Live calendar coming soon.</strong><br>
+        Your Google Calendar will appear here once connected.
+        Available dates will be highlighted; blocked dates will show as unavailable only — no details visible.
+      </p>
+      <p class="setup-note">Setup instructions provided separately.</p>
+    </div>
+    <!--
+    ══════════════════════════════════════════════════════════
+    TO ADD YOUR CALENDAR: Replace the calendar-placeholder
+    div above with this iframe (paste your embed URL):
+
+    <iframe
+      src="PASTE_YOUR_GOOGLE_CALENDAR_EMBED_URL_HERE"
+      style="border:0;width:100%;height:520px;"
+      frameborder="0"
+      scrolling="no">
+    </iframe>
+
+    Instructions to get your embed URL: see README.md
+    ══════════════════════════════════════════════════════════
+    -->
+  </div>
+</section>
+
+<!-- HOUSE GUIDELINES -->
+<section class="section" id="rules">
+  <p class="section-label">House Guidelines</p>
+  <div class="rules-grid">
+    <div class="rule"><span>🔑</span> Key &amp; fob handoff arranged upon booking confirmation</div>
+    <div class="rule"><span>✅</span> Families welcome</div>
+    <div class="rule"><span>✅</span> Long stays welcome</div>
+    <div class="rule"><span>✅</span> Children welcome</div>
+    <div class="rule"><span>🚭</span> No smoking, vaping, or cannabis on premises</div>
+    <div class="rule"><span>🔇</span> Quiet hours after 10 pm</div>
+    <div class="rule"><span>👥</span> Registered guests only</div>
+    <div class="rule"><span>🐾</span> No pets permitted — no exceptions</div>
+    <div class="rule"><span>🏢</span> Strata rules apply — guests are expected to respect building policies</div>
+    <div class="rule"><span>📞</span> For any questions about your stay, contact your host directly — please do not approach the building concierge</div>
+    <div class="rule"><span>👤</span> Room Stay: maximum 2 guests</div>
+    <div class="rule"><span>👨‍👩‍👧‍👦</span> Full Unit Stay: maximum 4 guests</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <h2>Ready to plan your stay?</h2>
+  <p>
+    Reach out to check availability, ask questions, or confirm your dates.
+    Response usually within a few hours.
+  </p>
+  <a class="btn-primary" href="mailto:EclipseBrentwoodStays@gmail.com?subject=Guest%20Stay%20Inquiry">
+    Email to Book
+  </a>
+  <a class="btn-secondary" href="tel:2505078298">Call · 250-507-8298</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Eclipse Brentwood Stays · Burnaby, BC</span>
+  <span>Private — by referral only</span>
+</footer>
+
+</body>
+</html>
